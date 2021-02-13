@@ -9,7 +9,7 @@ const passport=require("passport");
 const passportLocalMongoose=require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
-
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const app = express();
 
@@ -106,7 +106,10 @@ res.redirect("/login");
 }
 });
 
+app.get("/submit", function(req,res){
 
+  res.render("submit");
+})
 
 app.get("/logout",function(req,res){
 
@@ -122,7 +125,15 @@ app.get('/auth/google/secrets',
     res.redirect('/secrets');
   });
 
+  app.get('/auth/facebook',
+    passport.authenticate('facebook'));
 
+  app.get('/auth/facebook/secrets',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/secrets');
+    });
 
 
 app.post("/register",function(req,res){
@@ -169,7 +180,10 @@ if(err){
 
 });
 
+app.post("/submit",function(req,res){
 
+  
+})
 
 
 
